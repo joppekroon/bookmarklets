@@ -31,7 +31,7 @@
   nonWcagResults.forEach(result => {
     result.style.display = "none";
     result.classList.add("steveNoLike");
-  })
+  });
   
   setTimeout(() => alert(`Complete. ${nonWcagResults.length} items removed.`), 0);
 })();
