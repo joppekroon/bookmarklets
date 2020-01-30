@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bookmarklets</title>
+  <script>
+    fetch('./text-adaptation.js')
+      .then(response => response.text())
+      .then(text => text.replace(/(^\s+|\s+$|\n)/gm,''))
+      .then(text => 'javascript:' + encodeURIComponent(text))
+      .then(code => {
+        document.querySelector('#text-adaptation-link').href = code;
+        document.querySelector('#text-adaptation-area').innerHTML = code;
+      });
+      
+    fetch('./check-dom.js')
+      .then(response => response.text())
+      .then(text => text.replace(/(^\s+|\s+$|\n)/gm,''))
+      .then(text => 'javascript:' + encodeURIComponent(text))
+      .then(code => {
+        document.querySelector('#check-dom-link').href = code;
+        document.querySelector('#check-dom-area').innerHTML = code;
+      });
+      
+    fetch('./wcag-filter.js')
+      .then(response => response.text())
+      .then(text => text.replace(/(^\s+|\s+$|\n)/gm,''))
+      .then(text => 'javascript:' + encodeURIComponent(text))
+      .then(code => {
+        document.querySelector('#wcag-filter-link').href = code;
+        document.querySelector('#wcag-filter-area').innerHTML = code;
+      });
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('div.bookmarklet').forEach(container => {
+        container.addEventListener('focus', event => {  
+          window.getSelection().selectAllChildren(event.target);
+        });
+        container.addEventListener('blur', event => {
+          window.getSelection().removeAllRanges();
+        })
+      })
+    });
+  </script>
+  <script>
+  </script>
+  
+  <style>
+    a.bookmarklet {
+      display: block;
+    }
+    div.bookmarklet {
+      word-break: break-all;
+      border: 1px solid #333333;
+      user-select: all;
+    }
+    section {
+      margin-top: 3em;
+    }
+    pre {
+      background-color: #cccccc;
+      border: 1px solid #333333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bookmarklets</h1>
+  <p>
+    Create a bookmark and use the textarea content for the URL value, or drag the link to the bookmark bar. 
+  </p>
+  
+  <section aria-labelledby="text-adaptation-header">
+    <h2 id="text-adaptation-header" >Text adaptation</h2>
+    <p>
+      <a class="bookmarklet" id="text-adaptation-link">Text adaptation</a>
+      <div tabindex="0" class="bookmarklet" id="text-adaptation-area"></div>
+    </p>
+    <p>
+      Adjusts all text on the page to these values:
+      <pre>
+        <code>
+  * {
+    line-height = 1.5;
+    letter-spacing = 0.12em;
+    word-spacing = 0.16em;
+  }
+  
+  p {
+    margin-bottom = 2em;
+  }
+        </code>
+      </pre>
+    </p>
+    <p>
+      Inspired by <a href="https://github.com/alastc/adaptation-scripts/blob/master/scripts/text-adaptation.js">text-adaptation.js from Alastair Campbell</a>.
+    </p>
+  </section>
+  
+  <section aria-labelledby="check-dom-header">
+    <h2 id="check-dom-header">Check DOM</h2>
+    <p>
+      <a class="bookmarklet" id="check-dom-link">Check for WCAG 2.0 parsing compliance</a>
+      <div tabindex="0" class="bookmarklet" id="check-dom-area" aria-labelledby="check-dom-link"></div>
+    </p>
+    <p>
+      Grabs the serialized DOM of whatever page you’re currently browsing 
+      and sends it to the <a href="https://validator.w3.org/nu/">Nu Html Checker.</a>
+    </p>
+    <p>
+      Original bookmarklet by Steve Faulkner at <a href="https://validator.w3.org/nu/about.html">Nu Html Checker about page</a>.
+    </p>
+  </section>
+  
+  <section aria-labelledby="wcag-filter-header">
+    <h2 id="wcag-filter-header" >Check for WCAG 2.0 parsing compliance</h2>
+    <p>
+      <a class="bookmarklet" id="wcag-filter-link">Check serialized DOM of current page</a>
+      <div tabindex="0" class="bookmarklet" id="wcag-filter-area" aria-labelledby="wcag-filter-link" ></div>
+    </p>
+    <p>
+      Filters Nu Html Checker results to just show messages relevant 
+      to <a href="https://developer.paciellogroup.com/blog/2019/02/wcag-2-0-parsing-error-bookmarklet/">requirements in the WCAG 2.1 spec</a>.
+    </p>
+    <p>
+      Original bookmarklet by Steve Faulkner at <a href="https://validator.w3.org/nu/about.html">Nu Html Checker about page</a>.
+    </p>
+  </section>
+</body>
+</html>
