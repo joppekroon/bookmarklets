@@ -1,7 +1,7 @@
 (function() {
-  var all = document.querySelectorAll('*');
-  var paragraphs = document.querySelectorAll('p');
-
+  const all = document.querySelectorAll('*');
+  const paragraphs = document.querySelectorAll('p');
+  
   Array.prototype.forEach.call(all, function(el) {
     el.style.setProperty('line-height', '1.5', 'important');
     el.style.setProperty('letter-spacing', '0.12em', 'important');
